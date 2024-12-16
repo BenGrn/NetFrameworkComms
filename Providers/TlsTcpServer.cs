@@ -25,7 +25,7 @@ namespace NetFrameworkComms.Providers
         private readonly List<TlsConnection> _connections = new List<TlsConnection>();
         private bool _listening;
         private readonly Encoding _encoding = Encoding.GetEncoding(28591);
-        private static int _bufferSize = 4096;
+        private const int BufferSize = 4096;
 
         public int Port { get; set; }
         public string Name { get; set; }
@@ -47,7 +47,6 @@ namespace NetFrameworkComms.Providers
                 }
             }
             return null;
-
         }
 
         private async Task ListenAsync()
@@ -85,7 +84,7 @@ namespace NetFrameworkComms.Providers
                 {
                     connection.Stream = stream;
                     stream.AuthenticateAsServer(_serverCertificate, false, SslProtocols.Tls12, false);
-                    var data = new byte[_bufferSize];
+                    var data = new byte[BufferSize];
                     int i;
 
                     while ((i = stream.Read(data, 0, data.Length)) != 0)
